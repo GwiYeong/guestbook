@@ -1,0 +1,31 @@
+<?xml version= "1.0" encoding ="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.nhnent.guestbook.dao.GuestbookDao"> 
+
+	<resultMap type="com.nhnent.guestbook.vo.Guestbook" id="GuestbookResultMap">
+		<result property="email" column="email" />
+		<result property="password" column="password" />
+		<result property="content" column="content" />
+		<result property="registTime" column="registtime" />
+		<result property="updateTime" column="updatetime" />
+	</resultMap>
+	
+	<insert id="insertGuestbook" parameterType="com.nhnent.guestbook.vo.Guestbook">
+	INSERT INTO 
+		guestbook (email, [password], content, registtime, updatetime) 
+	VALUES (#{email}, #{password}, #{content}, NOW(), NULL);
+	</insert>
+	
+	<select id="selectAllGuestbook" resultMap="GuestbookResultMap">
+	SELECT
+		email,
+		[password],
+		content,
+		registtime,
+		updatetime
+	FROM
+		guestbook
+	</select>
+</mapper>
