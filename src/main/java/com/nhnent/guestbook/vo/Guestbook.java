@@ -4,11 +4,19 @@ import java.util.Date;
 
 
 public class Guestbook {
+	private int number;
 	private String email;
 	private String password;
 	private String content;
 	private Date updateTime;
 	private Date registTime;
+	public int getNumber() {
+		return number;
+	}
+	public Guestbook setNumber(int number) {
+		this.number = number;
+		return this;
+	}
 	public String getEmail() {
 		return email;
 	}

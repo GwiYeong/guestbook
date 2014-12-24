@@ -10,9 +10,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.nhnent.guestbook.service.GuestbookService;
 import com.nhnent.guestbook.vo.Guestbook;
 
@@ -31,12 +35,8 @@ public class HomeController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
-		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
+	public ModelAndView home(ModelAndView mav) {
+
 		List<Guestbook> guestbookList = guestbookService.selectAllGuestbook();
 		
 		for(Guestbook g : guestbookList) {
@@ -45,8 +45,20 @@ public class HomeController {
 			logger.info("content = {}",g.getContent());
 			logger.info("registtime = {}",g.getRegistTime().toString());
 		}
+		Gson gson = new Gson(); 
+		mav.addObject("guestbookList", gson.toJson(guestbookList));
+		mav.setViewName("home");
+		return mav;
+	}
+	
+	@RequestMapping(value = "addGuestbook", method = RequestMethod.POST)
+	public ModelAndView addGuestbook(ModelAndView mav, @ModelAttribute Guestbook guestbook) {
 		
-		return "home";
+		logger.info("email = {}",guestbook.getEmail());
+		logger.info("password = {}",guestbook.getPassword());
+		logger.info("content = {}",guestbook.getContent());
+		guestbookService.insertGuestbook(guestbook);
+		return home(mav);
 	}
 	
 }

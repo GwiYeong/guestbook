@@ -5,6 +5,7 @@
 <mapper namespace="com.nhnent.guestbook.dao.GuestbookDao"> 
 
 	<resultMap type="com.nhnent.guestbook.vo.Guestbook" id="GuestbookResultMap">
+		<result property="number" column="number"/>
 		<result property="email" column="email" />
 		<result property="password" column="password" />
 		<result property="content" column="content" />
@@ -20,6 +21,7 @@
 	
 	<select id="selectAllGuestbook" resultMap="GuestbookResultMap">
 	SELECT
+		number,
 		email,
 		[password],
 		content,
@@ -27,5 +29,6 @@
 		updatetime
 	FROM
 		guestbook
+	ORDER BY number DESC;
 	</select>
 </mapper>

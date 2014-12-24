@@ -21,6 +21,7 @@ public class GuestbookService {
 	
 	public void insertGuestbook(Guestbook guestbook) {
 		GuestbookDao guestbookDao = sqlsession.getMapper(GuestbookDao.class);
+		logger.info("insertGuestbook");
 		logger.info("email = {}",guestbook.getEmail());
 		logger.info("password = {}",guestbook.getPassword());
 		logger.info("content = {}",guestbook.getContent());
