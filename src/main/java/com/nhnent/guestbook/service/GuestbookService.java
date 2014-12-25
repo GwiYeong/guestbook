@@ -50,6 +50,13 @@ public class GuestbookService {
 		GuestbookDao guestbookDao = sqlsession.getMapper(GuestbookDao.class);
 		guestbookDao.updateGuestbook(guestbook);
 	}
+
+	public void deleteGuestbook(Guestbook guestbook) {
+		// TODO Auto-generated method stub
+		GuestbookDao guestbookDao = sqlsession.getMapper(GuestbookDao.class);
+		guestbookDao.deleteGuestbook(guestbook);
+		
+	}
 	
 	
 }

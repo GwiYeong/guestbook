@@ -12,6 +12,14 @@
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
 
+
+	<interceptors>
+		<interceptor>
+			<mapping path="/**"/>
+			<beans:bean class="com.nhnent.guestbook.interceptor.GuestbookInterceptor"/>
+		</interceptor>
+	
+	</interceptors>
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 

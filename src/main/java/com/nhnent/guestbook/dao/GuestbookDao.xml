@@ -50,4 +50,11 @@
 	WHERE
 		number = #{number};
 	</update>
+	
+	<delete id="deleteGuestbook" parameterType = "com.nhnent.guestbook.vo.Guestbook">
+	DELETE FROM
+		guestbook
+	WHERE
+		number = #{number};
+	</delete>
 </mapper>
