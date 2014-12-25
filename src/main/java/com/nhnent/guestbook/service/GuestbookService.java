@@ -33,5 +33,23 @@ public class GuestbookService {
 		return guestbookDao.selectAllGuestbook();
 	}
 	
+	public boolean isRightPassword(int number, String password) {
+		GuestbookDao guestbookDao = sqlsession.getMapper(GuestbookDao.class);
+		
+		String rightPassword = guestbookDao.selectPasswordByNumber(number);
+		logger.info("rightPassword = {}", rightPassword);
+		if(rightPassword.equals(password)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public void updateGuestbook(Guestbook guestbook) {
+		// TODO Auto-generated method stub
+		GuestbookDao guestbookDao = sqlsession.getMapper(GuestbookDao.class);
+		guestbookDao.updateGuestbook(guestbook);
+	}
+	
 	
 }

@@ -10,4 +10,5 @@ public interface GuestbookDao {
 	public List<Guestbook> selectAllGuestbook();
 	public void deleteGuestbook(Guestbook guestbook);
 	public void updateGuestbook(Guestbook guestbook);
+	public String selectPasswordByNumber(int number);
 }

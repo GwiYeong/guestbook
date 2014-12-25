@@ -31,4 +31,23 @@
 		guestbook
 	ORDER BY number DESC;
 	</select>
+	
+	<select id="selectPasswordByNumber" parameterType = "java.lang.String" resultType="java.lang.String">
+	SELECT 
+		[password]
+	FROM
+		guestbook
+	WHERE number = #{number};
+	
+	</select>
+	
+	<update id="updateGuestbook" parameterType = "com.nhnent.guestbook.vo.Guestbook">
+	UPDATE
+		guestbook
+	SET
+		content = #{content},
+		updatetime = NOW()
+	WHERE
+		number = #{number};
+	</update>
 </mapper>

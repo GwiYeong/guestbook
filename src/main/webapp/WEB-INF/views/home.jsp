@@ -62,7 +62,7 @@
   <script id = "guestbook_temp" type = "text/x-jquery-tmpl">
   <div class="col-lg-12">
 	 <div class = "panel panel-default">
-       <form class="form" action = "addGuestbook" method = POST >
+       <form class="form" action = "updateGuestbook" method = POST onsubmit = "checkPassword(\${number},$(this).children().children('[type=password]').val(),this); return false;">
 				  <div class="form-group form-inline" style = "position : relative; left : 0px; ">
 				  	<input type = "hidden" name = "number" value = "\${number}">
 				    <label class="sr-only" for="email">Email address</label>
@@ -79,7 +79,7 @@
 			  <div class = "form-group form-inline" style = "text-align : right; display : none;">
 					<label class="sr-only" for="password" >Password</label>
 					<input type="password" class="form-control" id="password" name = "password" placeholder="Password">
-					<button type="submit" class="btn btn-default" >Update</button>
+					<button type = "submit" class="btn btn-default">Update</button>
 					<button class="btn btn-default" onclick="$(this).parent().hide(); $(this).parent().next().show(); $(this).parent().siblings().children('textarea').attr('disabled','disabled'); return false;">Cancel</button>
 			  </div>
 			  <div class = "form-group form-inline" style = "text-align : right">
@@ -94,6 +94,21 @@
   	var guestbookList = ${guestbookList};
   	$("#guestbook_temp").tmpl(guestbookList).appendTo("#guestbookRow");
   	
+  	function checkPassword(number,  password,thisForm) {
+  		$.ajax({
+  			url : 'checkPasswordAjax',
+  			type : 'post',
+  			dataType : 'json',
+  			data : {'number':number, 'password':password},
+  			success: function(data){
+  						if(data) {
+  							thisForm.submit();
+  						} else {
+  							alert("wrong password");
+  						}
+	            }
+  		});
+  	}
   </script>
   
   

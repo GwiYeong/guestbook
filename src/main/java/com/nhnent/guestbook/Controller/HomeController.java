@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
@@ -40,10 +41,10 @@ public class HomeController {
 		List<Guestbook> guestbookList = guestbookService.selectAllGuestbook();
 		
 		for(Guestbook g : guestbookList) {
-			logger.info("email = {}",g.getEmail());
-			logger.info("password = {}",g.getPassword());
-			logger.info("content = {}",g.getContent());
-			logger.info("registtime = {}",g.getRegistTime().toString());
+//			logger.info("email = {}",g.getEmail());
+//			logger.info("password = {}",g.getPassword());
+//			logger.info("content = {}",g.getContent());
+//			logger.info("registtime = {}",g.getRegistTime().toString());
 		}
 		Gson gson = new Gson(); 
 		mav.addObject("guestbookList", gson.toJson(guestbookList));
@@ -54,11 +55,33 @@ public class HomeController {
 	@RequestMapping(value = "addGuestbook", method = RequestMethod.POST)
 	public ModelAndView addGuestbook(ModelAndView mav, @ModelAttribute Guestbook guestbook) {
 		
+		logger.info("addGuestbook");
 		logger.info("email = {}",guestbook.getEmail());
 		logger.info("password = {}",guestbook.getPassword());
 		logger.info("content = {}",guestbook.getContent());
 		guestbookService.insertGuestbook(guestbook);
-		return home(mav);
+		mav.setViewName("redirect:/");
+		return mav;
+	}
+	
+	@RequestMapping(value = "updateGuestbook", method = RequestMethod.POST)
+	public ModelAndView updateGuestbook(ModelAndView mav, @ModelAttribute Guestbook guestbook) {
+		
+		logger.info("updateGuestbook");
+		logger.info("content = {}", guestbook.getContent());
+		logger.info("checkpassword = {}",guestbookService.isRightPassword(guestbook.getNumber(), guestbook.getPassword()));
+		if(guestbookService.isRightPassword(guestbook.getNumber(), guestbook.getPassword())) {
+			guestbookService.updateGuestbook(guestbook);
+		}
+		mav.setViewName("redirect:/");
+		return mav;
+	}
+	
+	@RequestMapping(value = "checkPasswordAjax", method = RequestMethod.POST)
+	@ResponseBody
+	public boolean checkPasswordAjax(@RequestParam int number, @RequestParam String password) {
+		logger.info("checkPasswordAjax pass = {}, number = {}", password,number);
+		return guestbookService.isRightPassword(number, password);
 	}
 	
 }
